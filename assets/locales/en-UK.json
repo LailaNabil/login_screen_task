@@ -1,0 +1,10 @@
+{
+  "title" : "eng Title",
+  "lang" : "EN",
+  "logo" : "assets/images/logo_en.png",
+  "auth_phone" : "Enter Phone Number",
+  "auth_password" : "Enter Password",
+  "login" : "Login",
+  "sign_up" : "Sign Up",
+  "forgot_password" : "Forgot Password"
+}
