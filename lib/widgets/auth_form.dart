@@ -1,165 +1,13 @@
-import 'dart:async';
-import 'dart:convert';
-
-// import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter_intro/flutter_intro.dart';
-
 import 'package:flutter/material.dart';
-import 'package:login_screen_task/widgets/background.dart';
-
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool init = false;
-  final _auth = FirebaseAuth.instance;
-
-  void _toggleLanguage() {
-    // setState(() {
-    //   context.locale =
-    //   context.locale == Locale('en', 'UK') ? Locale('ar', 'EG') : Locale(
-    //       'en', 'UK');
-    // });
-  }
-
-  // Intro intro = Intro(
-  //
-  //   /// You can set it true to disable animation
-  //   noAnimation: false,
-  //
-  //   /// The total number of guide pages, must be passed
-  //   stepCount: 6,
-  //
-  //   /// Click on whether the mask is allowed to be closed.
-  //   maskClosable: true,
-  //
-  //   /// When highlight widget is tapped.
-  //   onHighlightWidgetTap: (introStatus) {
-  //     print(introStatus);
-  //   },
-  //
-  //   /// The padding of the highlighted area and the widget
-  //   padding: EdgeInsets.all(8),
-  //
-  //   /// Border radius of the highlighted area
-  //   borderRadius: BorderRadius.all(Radius.circular(4)),
-  //
-  //   /// Use the default useDefaultTheme provided by the library to quickly build a guide page
-  //   /// Need to customize the style and content of the guide page, implement the widgetBuilder method yourself
-  //   /// * Above version 2.3.0, you can use useAdvancedTheme to have more control over the style of the widget
-  //   /// * Please see https://github.com/tal-tech/flutter_intro/issues/26
-  //   widgetBuilder: StepWidgetBuilder.useDefaultTheme(
-  //
-  //     /// Guide page text
-  //     texts: [
-  //       'Change Language from here',
-  //       'Enter phone number to login here',
-  //       'Enter password to login/sign up here',
-  //       'After entering phone number and password,press login',
-  //       'To switch to sign up mode,press here',
-  //       'In case you forgot your password,press here',
-  //     ],
-  //
-  //     /// Button text
-  //     buttonTextBuilder: (curr, total) {
-  //       return curr < total - 1 ? 'Next' : 'Finish';
-  //     },
-  //   ),
-  // );
-
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     Duration(
-  //       milliseconds: 500,
-  //     ),
-  //         () {
-  //       /// start the intro
-  //       intro.start(context);
-  //     },
-  //   );
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    // intro.start(context);
-    final screenSize = MediaQuery
-        .of(context)
-        .size;
-    print('width ${screenSize.width}');
-    print('height ${screenSize.height}');
-    return Scaffold(
-      body: Stack(
-        children: [
-          BackgroundImageWithGradient(),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: (screenSize.height / 13.0).ceilToDouble(),
-                      left: (screenSize.height / 16.0).ceilToDouble()),
-                  child: LanguageButton(
-                      _toggleLanguage,
-                      // intro.keys[0]
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: Image.asset(
-                        // 'logo'.tr().toString(),
-                        "assets/images/logo_en.png",
-                        width: screenSize.width * 0.8,
-                      )),
-                ),
-                Padding(
-                  padding:  EdgeInsets.symmetric(
-                      horizontal: screenSize.width * 0.02, vertical: screenSize.height*0.01),
-                  child: LoginForm(
-                      // phoneKey: intro.keys[1],
-                      // passwordKey: intro.keys[2],
-                      // loginKey: intro.keys[3]
-                    auth: _auth,
-                  ),
-                ),
-                Padding(
-                  padding:
-                  EdgeInsets.only(top: screenSize.height*0.01, left: screenSize.width * 0.08, right: screenSize.width * 0.08),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // SignupButton(intro.keys[4]),
-                      SignupButton(),
-                      // ForgotPasswordButton(intro.keys[5]),
-                      ForgotPasswordButton(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
 
 class LoginForm extends StatefulWidget {
   final Key phoneKey;
   final Key passwordKey;
   final Key loginKey;
-  final FirebaseAuth auth;
 
-  LoginForm({this.passwordKey, this.phoneKey, this.loginKey,this.auth});
+  LoginForm({this.passwordKey, this.phoneKey, this.loginKey,});
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -167,6 +15,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   bool passwordObscure;
+  final auth = FirebaseAuth.instance;
 
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
@@ -178,22 +27,21 @@ class _LoginFormState extends State<LoginForm> {
     //       verificationId: phoneController.text, smsCode: passwordController.text);
     // }
     print('submit');
-    final response = await widget.auth.verifyPhoneNumber( phoneNumber: '+201018087756',
+    await auth.verifyPhoneNumber( phoneNumber: '+201018087756',
       verificationCompleted: (PhoneAuthCredential credential) {
-      print('verificationCompleted');
+        print('verificationCompleted');
       },
       verificationFailed: (FirebaseAuthException e) {
         print('verificationFailed');
       },
       codeSent: (String verificationId, int resendToken) async {
         // Update the UI - wait for the user to enter the SMS code
-        String smsCode = '102013';
-        // String smsCode = '123321';
+        // String smsCode = '102013';
+        String smsCode = '123321';
 
         // Create a PhoneAuthCredential with the code
         PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-
-        print('now you can login');
+        print('credential $credential');
         // // Sign the user in (or link) with the credential
         // await widget.auth.signInWithCredential(credential);
       },
@@ -223,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
               labelText:
-                  "Enter Phone Number",
+              "Enter Phone Number",
               // 'auth_phone'.tr().toString(),
               labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
         ),
@@ -238,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
                 obscureText: passwordObscure,
                 decoration: InputDecoration(
                     labelText:
-                "Enter Password",
+                    "Enter Password",
                     // 'auth_password'.tr().toString(),
                     labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
               ),
@@ -282,7 +130,7 @@ class LanguageButton extends StatelessWidget {
       label: AutoSizeText(
         "EN",
         // 'lang'.tr().toString(),
-       maxFontSize: 20,
+        maxFontSize: 20,
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all(
@@ -339,7 +187,7 @@ class ForgotPasswordButton extends StatelessWidget {
         maxFontSize: 16,
         minFontSize: 14,
         style: TextStyle(
-            // fontSize: 18,
+          // fontSize: 18,
             color: Colors.white70),
       ),
     );
@@ -362,10 +210,10 @@ class SignupButton extends StatelessWidget {
         maxFontSize: 16,
         minFontSize: 14,
         style: TextStyle(
-            // fontSize: 20,
+          // fontSize: 20,
             color: Theme
-            .of(context)
-            .primaryColor),
+                .of(context)
+                .primaryColor),
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all(
