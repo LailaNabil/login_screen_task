@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 // import 'package:easy_localization/easy_localization.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_intro/flutter_intro.dart';
 
@@ -91,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenSize = MediaQuery
         .of(context)
         .size;
+    print('width ${screenSize.width}');
     print('height ${screenSize.height}');
     return Scaffold(
       body: Stack(
@@ -104,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: (screenSize.height / 13.0).ceilToDouble(),
-                      left: 30.0),
+                      left: (screenSize.height / 16.0).ceilToDouble()),
                   child: LanguageButton(
                       _toggleLanguage,
                       // intro.keys[0]
@@ -131,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 15, left: 30.0, right: 30.0),
+                  EdgeInsets.only(top: 15, left: 30.0, right: 30.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -223,7 +225,7 @@ class _LoginFormState extends State<LoginForm> {
               labelText:
                   "Enter Phone Number",
               // 'auth_phone'.tr().toString(),
-              labelStyle: TextStyle(color: Colors.white70, fontSize: 25)),
+              labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
         ),
         Row(
           // alignment: Alignment.centerRight,
@@ -238,7 +240,7 @@ class _LoginFormState extends State<LoginForm> {
                     labelText:
                 "Enter Password",
                     // 'auth_password'.tr().toString(),
-                    labelStyle: TextStyle(color: Colors.white70, fontSize: 25)),
+                    labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
               ),
             ),
             IconButton(
@@ -275,12 +277,12 @@ class LanguageButton extends StatelessWidget {
       onPressed: toggleLanguage,
       icon: Icon(
         Icons.language,
-        size: 30,
+        size: 20,
       ),
-      label: Text(
+      label: AutoSizeText(
         "EN",
         // 'lang'.tr().toString(),
-        style: TextStyle(fontSize: 22),
+       maxFontSize: 20,
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all(
@@ -302,11 +304,13 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(
+      child: AutoSizeText(
         "Login",
         // 'login'.tr().toString(),
         // key: key,
-        style: TextStyle(fontSize: 20),
+        maxFontSize: 18,
+        minFontSize: 16,
+        // style: TextStyle(fontSize: 20),
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all(
@@ -328,11 +332,15 @@ class ForgotPasswordButton extends StatelessWidget {
     return TextButton(
       // key: key,
       onPressed: () {},
-      child: Text(
+      child: AutoSizeText(
         'forgot password',
         // 'forgot_password'.tr().toString(),
         // key: key,
-        style: TextStyle(fontSize: 18, color: Colors.white70),
+        maxFontSize: 16,
+        minFontSize: 14,
+        style: TextStyle(
+            // fontSize: 18,
+            color: Colors.white70),
       ),
     );
   }
@@ -348,10 +356,14 @@ class SignupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {},
-      child: Text(
+      child: AutoSizeText(
         "sign up",
         // 'sign_up'.tr().toString(),
-        style: TextStyle(fontSize: 20, color: Theme
+        maxFontSize: 16,
+        minFontSize: 14,
+        style: TextStyle(
+            // fontSize: 20,
+            color: Theme
             .of(context)
             .primaryColor),
       ),

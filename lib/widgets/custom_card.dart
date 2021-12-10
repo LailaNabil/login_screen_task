@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
@@ -21,10 +23,12 @@ class CustomCard extends StatelessWidget {
             Image.asset(image , width: 50,),
             Padding(
               padding: const EdgeInsets.all(6.0),
-              child: Text(
+              child: AutoSizeText(
                 text,
+                maxLines: 1,
+                maxFontSize: 16,
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 18),
+                    color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),
               ),
             )
           ],
