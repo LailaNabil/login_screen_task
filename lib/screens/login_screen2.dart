@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding:  EdgeInsets.symmetric(
                       horizontal: screenSize.width * 0.02, vertical: screenSize.height*0.01),
-                  child: LoginForm(
+                  child: AuthForm(
                       // phoneKey: intro.keys[1],
                       // passwordKey: intro.keys[2],
                       // loginKey: intro.keys[3]
@@ -152,18 +152,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class LoginForm extends StatefulWidget {
+class AuthForm extends StatefulWidget {
   final Key phoneKey;
   final Key passwordKey;
   final Key loginKey;
 
-  LoginForm({this.passwordKey, this.phoneKey, this.loginKey,});
+  AuthForm({this.passwordKey, this.phoneKey, this.loginKey,});
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _AuthFormState createState() => _AuthFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _AuthFormState extends State<AuthForm> {
   bool passwordObscure;
   final auth = FirebaseAuth.instance;
 

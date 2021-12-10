@@ -114,13 +114,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Image.asset(
                         // 'logo'.tr().toString(),
                         "assets/images/logo_en.png",
-                        width: screenSize.width * 0.8,
+                        width: screenSize.width * 0.7,
+                        // height: screenSize.height * 0.,
                       )),
                 ),
                 Padding(
                   padding:  EdgeInsets.symmetric(
                       horizontal: screenSize.width * 0.02, vertical: screenSize.height*0.01),
-                  child: LoginForm(
+                  child: AuthForm(
                       // phoneKey: intro.keys[1],
                       // passwordKey: intro.keys[2],
                       // loginKey: intro.keys[3]

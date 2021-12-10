@@ -2,34 +2,38 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginForm extends StatefulWidget {
+class AuthForm extends StatefulWidget {
+  final Key emailKey;
   final Key phoneKey;
   final Key passwordKey;
   final Key loginKey;
 
-  LoginForm({
+  AuthForm({
+    this.emailKey,
     this.passwordKey,
     this.phoneKey,
     this.loginKey,
   });
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _AuthFormState createState() => _AuthFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _AuthFormState extends State<AuthForm> {
   bool passwordObscure;
   final auth = FirebaseAuth.instance;
   bool _isLogin;
 
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  final otpController = TextEditingController();
   final passwordController = TextEditingController();
 
   void _submit() async {
-    if (phoneController.text.isNotEmpty &&
+    if (
         passwordController.text.length >= 9) {
-      final email = '${phoneController.text}@test.com';
+      // final email = '${phoneController.text}@test.com';
+      final email = emailController.text;
       final password = passwordController.text;
       print('email $email');
       print('password $password');
@@ -39,14 +43,16 @@ class _LoginFormState extends State<LoginForm> {
         await auth.signInWithEmailAndPassword(email: email, password: password);
         print('login done? ${auth.currentUser}');
       }else{
-        await auth.createUserWithEmailAndPassword(email: email, password: password);
+        final user = await auth.createUserWithEmailAndPassword(email: email, password: password);
+        // await auth.currentUser.linkWithPhoneNumber(phoneController.text);
+        print('user $user}');
         print('sign up done? ${auth.currentUser}');
       }
     }
 
 
     // await auth.verifyPhoneNumber(
-    //   phoneNumber: '+201018087756',
+    //   phoneNumber: '+151018087756',
     //   verificationCompleted: (PhoneAuthCredential credential) {
     //     print('verificationCompleted');
     //   },
@@ -55,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
     //   },
     //   codeSent: (String verificationId, int resendToken) async {
     //     // Update the UI - wait for the user to enter the SMS code
-    //     // String smsCode = '102013';
+    //     // String smsCode = '101513';
     //     String smsCode = '123321';
     //
     //     // Create a PhoneAuthCredential with the code
@@ -97,25 +103,36 @@ class _LoginFormState extends State<LoginForm> {
       children: [
         if(!_isLogin)
           TextField(
-          key: widget.phoneKey,
+          key: widget.emailKey,
           controller: emailController,
-          style: TextStyle(color: Colors.white, fontSize: 25),
-          keyboardType: TextInputType.phone,
+          style: TextStyle(color: Colors.white, fontSize: 22),
+          keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
               labelText: "Enter Email",
               // 'auth_phone'.tr().toString(),
-              labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
+              labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
         ),
         TextField(
           key: widget.phoneKey,
           controller: phoneController,
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          style: TextStyle(color: Colors.white, fontSize: 22),
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
               labelText: "Enter Phone Number",
               // 'auth_phone'.tr().toString(),
-              labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
+              labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
         ),
+        if(!_isLogin)
+          TextField(
+            // key: widget.phoneKey,
+            controller: otpController,
+            style: TextStyle(color: Colors.white, fontSize: 22),
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+                labelText: "Enter OTP",
+                // 'auth_phone'.tr().toString(),
+                labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
+          ),
         Row(
           // alignment: Alignment.centerRight,
           children: [
@@ -123,12 +140,12 @@ class _LoginFormState extends State<LoginForm> {
               child: TextField(
                 key: widget.passwordKey,
                 controller: passwordController,
-                style: TextStyle(color: Colors.white, fontSize: 25),
+                style: TextStyle(color: Colors.white, fontSize: 22),
                 obscureText: passwordObscure,
                 decoration: InputDecoration(
                     labelText: "Enter Password",
                     // 'auth_password'.tr().toString(),
-                    labelStyle: TextStyle(color: Colors.white70, fontSize: 20)),
+                    labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
               ),
             ),
             IconButton(
@@ -228,7 +245,7 @@ class SubmitButton extends StatelessWidget {
             isLogin ? "Login" : "Sign up",
             // 'login'.tr().toString(),
             // key: key,
-            // style: TextStyle(fontSize: 20),
+            // style: TextStyle(fontSize: 15),
           ),
         ),
       ),
@@ -253,7 +270,7 @@ class ForgotPasswordButton extends StatelessWidget {
       // key: key,
       onPressed: () {},
       child: Container(
-        height: 20,
+        height: 15,
         child: FittedBox(
           fit: BoxFit.contain,
           child: Text(
