@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 // import 'package:easy_localization/easy_localization.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_intro/flutter_intro.dart';
 
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool init = false;
-  // final auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   void _toggleLanguage() {
     // setState(() {
@@ -126,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // phoneKey: intro.keys[1],
                       // passwordKey: intro.keys[2],
                       // loginKey: intro.keys[3]
+                    auth: _auth,
                   ),
                 ),
                 Padding(
@@ -154,8 +155,9 @@ class LoginForm extends StatefulWidget {
   final Key phoneKey;
   final Key passwordKey;
   final Key loginKey;
+  final FirebaseAuth auth;
 
-  LoginForm({this.passwordKey, this.phoneKey, this.loginKey});
+  LoginForm({this.passwordKey, this.phoneKey, this.loginKey,this.auth});
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -174,10 +176,26 @@ class _LoginFormState extends State<LoginForm> {
     //       verificationId: phoneController.text, smsCode: passwordController.text);
     // }
     print('submit');
-    // final response = await FirebaseAuth.instance.signInWithPhoneNumber(
-    //     verificationId: "+201018087756", smsCode: "123321");
-    // print("response is $response");
+    final response = await widget.auth.verifyPhoneNumber( phoneNumber: '+201018087756',
+      verificationCompleted: (PhoneAuthCredential credential) {
+      print('verificationCompleted');
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print('verificationFailed');
+      },
+      codeSent: (String verificationId, int resendToken) async {
+        // Update the UI - wait for the user to enter the SMS code
+        String smsCode = '102013';
+        // String smsCode = '123321';
 
+        // Create a PhoneAuthCredential with the code
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+
+        print('now you can login');
+        // // Sign the user in (or link) with the credential
+        // await widget.auth.signInWithCredential(credential);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},);
   }
 
   @override

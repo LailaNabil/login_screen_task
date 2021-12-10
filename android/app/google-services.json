@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "270532215579",
+    "project_id": "login-screen-a472e",
+    "storage_bucket": "login-screen-a472e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270532215579:android:5a178be207959b833c49be",
+        "android_client_info": {
+          "package_name": "com.example.login_screen_task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270532215579-o4k8j2ri2q51ieefb1oddkjooh9oh308.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkkqfdK6vYkTa07oanMdkyK3E603IPRP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270532215579-o4k8j2ri2q51ieefb1oddkjooh9oh308.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
