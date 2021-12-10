@@ -120,24 +120,30 @@ class LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      // key: key,
-      onPressed: toggleLanguage,
-      icon: Icon(
-        Icons.language,
-        size: 20,
+    return Container(
+      height: 50,
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: ElevatedButton.icon(
+          // key: key,
+          onPressed: toggleLanguage,
+          icon: Icon(
+            Icons.language,
+            // size: 22,
+          ),
+          label: Text(
+            "EN",
+            // 'lang'.tr().toString(),
+            // maxFontSize: 22,
+          ),
+          style: ButtonStyle(
+              padding: MaterialStateProperty.all(
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 2)),
+              shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+              backgroundColor: MaterialStateProperty.all(Colors.blueAccent)),
+        ),
       ),
-      label: AutoSizeText(
-        "EN",
-        // 'lang'.tr().toString(),
-        maxFontSize: 20,
-      ),
-      style: ButtonStyle(
-          padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 12)),
-          shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-          backgroundColor: MaterialStateProperty.all(Colors.blueAccent)),
     );
   }
 }
