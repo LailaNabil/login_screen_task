@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
           BackgroundImageWithGradient(),
           SingleChildScrollView(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -122,8 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       )),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 15),
+                  padding:  EdgeInsets.symmetric(
+                      horizontal: screenSize.width * 0.02, vertical: screenSize.height*0.01),
                   child: LoginForm(
                       // phoneKey: intro.keys[1],
                       // passwordKey: intro.keys[2],
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(
                   padding:
-                  EdgeInsets.only(top: 15, left: 30.0, right: 30.0),
+                  EdgeInsets.only(top: screenSize.height*0.01, left: screenSize.width * 0.08, right: screenSize.width * 0.08),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
