@@ -23,11 +23,66 @@ class _AuthFormState extends State<AuthForm> {
   bool passwordObscure;
   final auth = FirebaseAuth.instance;
   bool _isLogin;
+  String verificationId;
 
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final otpController = TextEditingController();
   final passwordController = TextEditingController();
+
+  _onVerificationCompleted(PhoneAuthCredential authCredential) async {
+    print("verification completed ${authCredential.smsCode}");
+    final user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      // this.otpController.text = authCredential.smsCode;
+    });
+    // if (authCredential.smsCode != null) {
+    if (true) {
+      try{
+        UserCredential credential =
+        await user.linkWithCredential(authCredential);
+      }on FirebaseAuthException catch(e){
+        if(e.code == 'provider-already-linked'){
+          await auth.signInWithCredential(authCredential);
+        }
+      }
+    }
+  }
+
+  _onVerificationFailed(FirebaseAuthException exception) {
+    if (exception.code == 'invalid-phone-number') {
+      showMessage("The phone number entered is invalid!");
+    }
+  }
+
+  _onCodeSent(String verificationId, int forceResendingToken) {
+    this.verificationId = verificationId;
+    print(forceResendingToken);
+    print("code sent");
+  }
+
+  _onCodeTimeout(String timeout) {
+    return null;
+  }
+
+  void showMessage(String errorMessage) {
+    showDialog(
+        context: context,
+        builder: (BuildContext builderContext) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                child: Text("Ok"),
+                onPressed: () async {
+                  Navigator.of(builderContext).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
 
   void _submit() async {
     if (
@@ -35,6 +90,7 @@ class _AuthFormState extends State<AuthForm> {
       // final email = '${phoneController.text}@test.com';
       final email = emailController.text;
       final password = passwordController.text;
+      final phone = phoneController.text;
       print('email $email');
       print('password $password');
       print('submit');
@@ -44,7 +100,12 @@ class _AuthFormState extends State<AuthForm> {
         print('login done? ${auth.currentUser}');
       }else{
         final user = await auth.createUserWithEmailAndPassword(email: email, password: password);
-        // await auth.currentUser.linkWithPhoneNumber(phoneController.text);
+        // await auth.verifyPhoneNumber(
+        //     phoneNumber: phone,
+        //     verificationCompleted: _onVerificationCompleted,
+        //     verificationFailed: _onVerificationFailed,
+        //     codeSent: _onCodeSent,
+        //     codeAutoRetrievalTimeout: _onCodeTimeout);
         print('user $user}');
         print('sign up done? ${auth.currentUser}');
       }
@@ -115,6 +176,15 @@ class _AuthFormState extends State<AuthForm> {
         TextField(
           key: widget.phoneKey,
           controller: phoneController,
+          onEditingComplete: () async {
+            await auth.verifyPhoneNumber(
+                // phoneNumber: phoneController.text,
+              phoneNumber: '+201018087756',
+                verificationCompleted: _onVerificationCompleted,
+                verificationFailed: _onVerificationFailed,
+                codeSent: _onCodeSent,
+                codeAutoRetrievalTimeout: _onCodeTimeout);
+          },
           style: TextStyle(color: Colors.white, fontSize: 22),
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
