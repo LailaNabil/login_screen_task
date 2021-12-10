@@ -16,6 +16,8 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   bool passwordObscure;
   final auth = FirebaseAuth.instance;
+  bool _isLogin;
+
 
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
@@ -51,6 +53,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     passwordObscure = true;
+    _isLogin = false;
     super.initState();
   }
 
@@ -62,6 +65,9 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery
+        .of(context)
+        .size;
     return Column(
       children: [
         TextField(
@@ -100,11 +106,24 @@ class _LoginFormState extends State<LoginForm> {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.only(top: 12.0),
           child: Center(
-            child: LoginButton(key: widget.loginKey, onPressed: _submit,),
+            child: SubmitButton(key: widget.loginKey, onPressed: _submit,),
           ),
         ),
+        Padding(
+          padding:
+          EdgeInsets.only(top: screenSize.height*0.01, left: screenSize.width * 0.08, right: screenSize.width * 0.08),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // ChangeModeButton(intro.keys[4]),
+              ChangeModeButton(),
+              // ForgotPasswordButton(intro.keys[5]),
+              ForgotPasswordButton(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -148,11 +167,11 @@ class LanguageButton extends StatelessWidget {
   }
 }
 
-class LoginButton extends StatelessWidget {
+class SubmitButton extends StatelessWidget {
   final Key key;
   final Function onPressed;
 
-  LoginButton({this.key, this.onPressed});
+  SubmitButton({this.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -208,10 +227,10 @@ class ForgotPasswordButton extends StatelessWidget {
   }
 }
 
-class SignupButton extends StatelessWidget {
+class ChangeModeButton extends StatelessWidget {
   // final Key key;
   //
-  // SignupButton(this.key);
+  // ChangeModeButton(this.key);
 
 
   @override

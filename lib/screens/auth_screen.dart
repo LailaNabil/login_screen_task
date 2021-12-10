@@ -126,19 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // loginKey: intro.keys[3]
                   ),
                 ),
-                Padding(
-                  padding:
-                  EdgeInsets.only(top: screenSize.height*0.01, left: screenSize.width * 0.08, right: screenSize.width * 0.08),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // SignupButton(intro.keys[4]),
-                      SignupButton(),
-                      // ForgotPasswordButton(intro.keys[5]),
-                      ForgotPasswordButton(),
-                    ],
-                  ),
-                ),
+
               ],
             ),
           )
