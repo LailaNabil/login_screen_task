@@ -152,13 +152,17 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: AutoSizeText(
-        "Login",
-        // 'login'.tr().toString(),
-        // key: key,
-        maxFontSize: 18,
-        minFontSize: 16,
-        // style: TextStyle(fontSize: 20),
+      child: Container(
+        height: 22,
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(
+            "Login",
+            // 'login'.tr().toString(),
+            // key: key,
+            // style: TextStyle(fontSize: 20),
+          ),
+        ),
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all(
@@ -180,15 +184,19 @@ class ForgotPasswordButton extends StatelessWidget {
     return TextButton(
       // key: key,
       onPressed: () {},
-      child: AutoSizeText(
-        'forgot password',
-        // 'forgot_password'.tr().toString(),
-        // key: key,
-        maxFontSize: 16,
-        minFontSize: 14,
-        style: TextStyle(
-          // fontSize: 18,
-            color: Colors.white70),
+      child: Container(
+        height: 20,
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(
+            'forgot password',
+            // 'forgot_password'.tr().toString(),
+            // key: key,
+            style: TextStyle(
+              // fontSize: 18,
+                color: Colors.white70),
+          ),
+        ),
       ),
     );
   }
@@ -204,16 +212,19 @@ class SignupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {},
-      child: AutoSizeText(
-        "sign up",
-        // 'sign_up'.tr().toString(),
-        maxFontSize: 16,
-        minFontSize: 14,
-        style: TextStyle(
-          // fontSize: 20,
-            color: Theme
-                .of(context)
-                .primaryColor),
+      child: Container(
+        height: 22,
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(
+            "sign up",
+            // 'sign_up'.tr().toString(),
+            style: TextStyle(
+                color: Theme
+                    .of(context)
+                    .primaryColor),
+          ),
+        ),
       ),
       style: ButtonStyle(
           padding: MaterialStateProperty.all(
