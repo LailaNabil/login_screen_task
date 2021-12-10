@@ -58,6 +58,8 @@ flutter:
     - assets/images/icons/payment.png
     - assets/images/icons/settings.png
     - assets/images/icons/promotions.png
+    - assets/locales/en-UK.json
+    - assets/locales/ar-EG.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
