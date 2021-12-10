@@ -121,7 +121,7 @@ class LanguageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 55,
       child: FittedBox(
         fit: BoxFit.contain,
         child: ElevatedButton.icon(
