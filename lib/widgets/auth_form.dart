@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:login_screen_task/screens/profile_screen.dart';
 
 class AuthForm extends StatefulWidget {
-  final Key emailKey;
   final Key phoneKey;
   final Key passwordKey;
-  final Key loginKey;
+  final Key submitKey;
+  final Key changeModeKey;
+  final Key forgetPasswordKey;
 
   AuthForm({
-    this.emailKey,
     this.passwordKey,
     this.phoneKey,
-    this.loginKey,
+    this.changeModeKey,
+    this.submitKey,
+    this.forgetPasswordKey
   });
 
   @override
@@ -26,10 +28,7 @@ class _AuthFormState extends State<AuthForm> {
   bool _isLogin;
   String verificationId;
 
-  // final emailController = TextEditingController();
   final phoneController = TextEditingController();
-
-  // final otpController = TextEditingController();
   final passwordController = TextEditingController();
 
   void showMessage(String errorMessage) {
@@ -102,9 +101,6 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _changeMode() {
-    // setState(() {
-    //   _isLogin = !_isLogin;
-    // });
     print('mode now is $_isLogin Login');
   }
 
@@ -113,28 +109,9 @@ class _AuthFormState extends State<AuthForm> {
     final screenSize = MediaQuery.of(context).size;
     return Column(
       children: [
-        //   TextField(
-        //   key: widget.emailKey,
-        //   controller: emailController,
-        //   style: TextStyle(color: Colors.white, fontSize: 22),
-        //   keyboardType: TextInputType.emailAddress,
-        //   decoration: InputDecoration(
-        //       labelText: "Enter Email",
-        //       // 'auth_phone'.tr().toString(),
-        //       labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
-        // ),
         TextField(
           key: widget.phoneKey,
           controller: phoneController,
-          // onEditingComplete: () async {
-          //   await auth.verifyPhoneNumber(
-          //       // phoneNumber: phoneController.text,
-          //     phoneNumber: '+201018087756',
-          //       verificationCompleted: _onVerificationCompleted,
-          //       verificationFailed: _onVerificationFailed,
-          //       codeSent: _onCodeSent,
-          //       codeAutoRetrievalTimeout: _onCodeTimeout);
-          // },
           style: TextStyle(color: Colors.white, fontSize: 22),
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
@@ -142,18 +119,7 @@ class _AuthFormState extends State<AuthForm> {
               // 'auth_phone'.tr().toString(),
               labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
         ),
-        // TextField(
-        //   // key: widget.phoneKey,
-        //   controller: otpController,
-        //   style: TextStyle(color: Colors.white, fontSize: 22),
-        //   keyboardType: TextInputType.phone,
-        //   decoration: InputDecoration(
-        //       labelText: "Enter OTP",
-        //       // 'auth_phone'.tr().toString(),
-        //       labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
-        // ),
         Row(
-          // alignment: Alignment.centerRight,
           children: [
             Expanded(
               child: TextField(
@@ -179,9 +145,9 @@ class _AuthFormState extends State<AuthForm> {
           padding: const EdgeInsets.only(top: 12.0),
           child: Center(
             child: SubmitButton(
-              key: widget.loginKey,
               onPressed: _submit,
               isLogin: _isLogin,
+              key: widget.submitKey,
             ),
           ),
         ),
@@ -193,13 +159,12 @@ class _AuthFormState extends State<AuthForm> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // ChangeModeButton(intro.keys[4]),
               ChangeModeButton(
+                key: widget.changeModeKey,
                 isLogin: _isLogin,
                 onPressed: _changeMode,
               ),
-              // ForgotPasswordButton(intro.keys[5]),
-              ForgotPasswordButton(),
+              ForgotPasswordButton(widget.forgetPasswordKey),
             ],
           ),
         )
@@ -211,11 +176,11 @@ class _AuthFormState extends State<AuthForm> {
 class LanguageButton extends StatelessWidget {
   final Function toggleLanguage;
 
-  // final Key key;
+  final Key key;
 
   LanguageButton(
     this.toggleLanguage,
-    // this.key
+    this.key
   );
 
   @override
@@ -225,7 +190,7 @@ class LanguageButton extends StatelessWidget {
       child: FittedBox(
         fit: BoxFit.contain,
         child: ElevatedButton.icon(
-          // key: key,
+          key: key,
           onPressed: toggleLanguage,
           icon: Icon(
             Icons.language,
@@ -253,12 +218,15 @@ class SubmitButton extends StatelessWidget {
   final Function onPressed;
   final bool isLogin;
 
-  SubmitButton({this.key, this.onPressed, this.isLogin});
+  SubmitButton({
+    this.key,
+    this.onPressed, this.isLogin});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
+      key: key,
       child: Container(
         height: 22,
         child: FittedBox(
@@ -266,7 +234,6 @@ class SubmitButton extends StatelessWidget {
           child: Text(
             isLogin ? "Login" : "Sign up",
             // 'login'.tr().toString(),
-            // key: key,
             // style: TextStyle(fontSize: 15),
           ),
         ),
@@ -282,14 +249,14 @@ class SubmitButton extends StatelessWidget {
 }
 
 class ForgotPasswordButton extends StatelessWidget {
-  // final Key key;
-  //
-  // ForgotPasswordButton(this.key);
+  final Key key;
+
+  ForgotPasswordButton(this.key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      // key: key,
+      key: key,
       onPressed: () {},
       child: Container(
         height: 15,
@@ -298,7 +265,6 @@ class ForgotPasswordButton extends StatelessWidget {
           child: Text(
             'forgot password',
             // 'forgot_password'.tr().toString(),
-            // key: key,
             style: TextStyle(
                 // fontSize: 18,
                 color: Colors.white70),
@@ -313,16 +279,16 @@ class ChangeModeButton extends StatelessWidget {
   final bool isLogin;
   final Function onPressed;
 
-  // final Key key;
-  //
+  final Key key;
   ChangeModeButton(
       {this.isLogin,
-      // this.key
+      this.key,
       this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      key: key,
       onPressed: onPressed,
       child: Container(
         height: 22,

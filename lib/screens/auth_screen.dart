@@ -1,9 +1,12 @@
 // import 'package:easy_localization/easy_localization.dart';
-// import 'package:flutter_intro/flutter_intro.dart';
+import 'dart:async';
+
+import 'package:flutter_intro/flutter_intro.dart';
 
 import 'package:flutter/material.dart';
 import 'package:login_screen_task/widgets/auth_form.dart';
 import 'package:login_screen_task/widgets/background.dart';
+import '../helper/customIntro.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,16 +15,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool init = false;
-
-
-  void _toggleLanguage() {
-    // setState(() {
-    //   context.locale =
-    //   context.locale == Locale('en', 'UK') ? Locale('ar', 'EG') : Locale(
-    //       'en', 'UK');
-    // });
-  }
-
   // Intro intro = Intro(
   //
   //   /// You can set it true to disable animation
@@ -67,24 +60,29 @@ class _LoginScreenState extends State<LoginScreen> {
   //   ),
   // );
 
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     Duration(
-  //       milliseconds: 500,
-  //     ),
-  //         () {
-  //       /// start the intro
-  //       intro.start(context);
-  //     },
-  //   );
-  // }
+  void _toggleLanguage() {
+    // setState(() {
+    //   context.locale =
+    //   context.locale == Locale('en', 'UK') ? Locale('ar', 'EG') : Locale(
+    //       'en', 'UK');
+    // });
+  }
+    @override
+    void initState() {
+      super.initState();
+      Timer(
+        Duration(
+          milliseconds: 500,
+        ),
+            () {
+          /// start the intro
+          intro.start(context);
+        },
+      );
+    }
 
   @override
   Widget build(BuildContext context) {
-    // intro.start(context);
     final screenSize = MediaQuery
         .of(context)
         .size;
@@ -105,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       left: (screenSize.height / 16.0).ceilToDouble()),
                   child: LanguageButton(
                       _toggleLanguage,
-                      // intro.keys[0]
+                      intro.keys[0]
                   ),
                 ),
                 Padding(
@@ -122,9 +120,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding:  EdgeInsets.symmetric(
                       horizontal: screenSize.width * 0.02, vertical: screenSize.height*0.01),
                   child: AuthForm(
-                      // phoneKey: intro.keys[1],
-                      // passwordKey: intro.keys[2],
-                      // loginKey: intro.keys[3]
+                      phoneKey: intro.keys[1],
+                      passwordKey: intro.keys[2],
+                      submitKey: intro.keys[3],
+                    changeModeKey: intro.keys[4],
+                    forgetPasswordKey: intro.keys[5],
                   ),
                 ),
 
