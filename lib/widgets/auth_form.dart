@@ -1,6 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import 'package:login_screen_task/screens/profile_screen.dart';
 
 class AuthForm extends StatefulWidget {
@@ -115,8 +117,9 @@ class _AuthFormState extends State<AuthForm> {
           style: TextStyle(color: Colors.white, fontSize: 22),
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
-              labelText: "Enter Phone Number",
-              // 'auth_phone'.tr().toString(),
+              labelText:
+              // "Enter Phone Number",
+              'auth_phone'.tr().toString(),
               labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
         ),
         Row(
@@ -128,8 +131,9 @@ class _AuthFormState extends State<AuthForm> {
                 style: TextStyle(color: Colors.white, fontSize: 22),
                 obscureText: passwordObscure,
                 decoration: InputDecoration(
-                    labelText: "Enter Password",
-                    // 'auth_password'.tr().toString(),
+                    labelText:
+                    // "Enter Password",
+                    'auth_password'.tr().toString(),
                     labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
               ),
             ),
@@ -197,8 +201,8 @@ class LanguageButton extends StatelessWidget {
             // size: 22,
           ),
           label: Text(
-            "EN",
-            // 'lang'.tr().toString(),
+            // "EN",
+            'lang'.tr().toString(),
             // maxFontSize: 22,
           ),
           style: ButtonStyle(
@@ -232,8 +236,8 @@ class SubmitButton extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.contain,
           child: Text(
-            isLogin ? "Login" : "Sign up",
-            // 'login'.tr().toString(),
+            // isLogin ? "Login" : "Sign up",
+              isLogin ? 'login'.tr().toString() : 'sign_up'.tr().toString(),
             // style: TextStyle(fontSize: 15),
           ),
         ),
@@ -259,14 +263,14 @@ class ForgotPasswordButton extends StatelessWidget {
       key: key,
       onPressed: () {},
       child: Container(
-        height: 15,
+        // height: 15,
         child: FittedBox(
           fit: BoxFit.contain,
           child: Text(
-            'forgot password',
-            // 'forgot_password'.tr().toString(),
+            // 'forgot password',
+            'forgot_password'.tr().toString(),
             style: TextStyle(
-                // fontSize: 18,
+                fontSize: 14,
                 color: Colors.white70),
           ),
         ),
@@ -295,8 +299,8 @@ class ChangeModeButton extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.contain,
           child: Text(
-            isLogin ? "Sign up" : "Login",
-            // 'sign_up'.tr().toString(),
+            // isLogin ? "Sign up" : "Login",
+            isLogin ? 'sign_up'.tr().toString() :  'login'.tr().toString(),
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         ),
