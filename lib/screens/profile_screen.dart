@@ -9,6 +9,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -27,7 +28,8 @@ class ProfileScreen extends StatelessWidget {
           Container(
               color: Theme.of(context).primaryColor.withOpacity(0.97),
               width: double.infinity,
-              height: 150,
+              // height: screenSize.height / 4.5,
+              height: screenSize.height / 4.5,
               alignment: AlignmentDirectional.center,
               child: Text(
                 '0.00 LE',
