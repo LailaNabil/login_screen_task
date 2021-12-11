@@ -90,7 +90,8 @@ class _AuthFormState extends State<AuthForm> {
       // final email = '${phoneController.text}@test.com';
       final email = emailController.text;
       final password = passwordController.text;
-      final phone = phoneController.text;
+      // final phone = phoneController.text;
+      final phone = "+201018087756";
       print('email $email');
       print('password $password');
       print('submit');
@@ -100,40 +101,12 @@ class _AuthFormState extends State<AuthForm> {
         print('login done? ${auth.currentUser}');
       }else{
         final user = await auth.createUserWithEmailAndPassword(email: email, password: password);
-        // await auth.verifyPhoneNumber(
-        //     phoneNumber: phone,
-        //     verificationCompleted: _onVerificationCompleted,
-        //     verificationFailed: _onVerificationFailed,
-        //     codeSent: _onCodeSent,
-        //     codeAutoRetrievalTimeout: _onCodeTimeout);
         print('user $user}');
         print('sign up done? ${auth.currentUser}');
       }
     }
 
 
-    // await auth.verifyPhoneNumber(
-    //   phoneNumber: '+151018087756',
-    //   verificationCompleted: (PhoneAuthCredential credential) {
-    //     print('verificationCompleted');
-    //   },
-    //   verificationFailed: (FirebaseAuthException e) {
-    //     print('verificationFailed');
-    //   },
-    //   codeSent: (String verificationId, int resendToken) async {
-    //     // Update the UI - wait for the user to enter the SMS code
-    //     // String smsCode = '101513';
-    //     String smsCode = '123321';
-    //
-    //     // Create a PhoneAuthCredential with the code
-    //     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-    //         verificationId: verificationId, smsCode: smsCode);
-    //     print('credential $credential');
-    //     // // Sign the user in (or link) with the credential
-    //     // await widget.auth.signInWithCredential(credential);
-    //   },
-    //   codeAutoRetrievalTimeout: (String verificationId) {},
-    // );
 
   }
 
