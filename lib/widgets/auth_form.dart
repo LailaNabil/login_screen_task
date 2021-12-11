@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login_screen_task/screens/profile_screen.dart';
 
 class AuthForm extends StatefulWidget {
   final Key emailKey;
@@ -25,45 +26,11 @@ class _AuthFormState extends State<AuthForm> {
   bool _isLogin;
   String verificationId;
 
-  final emailController = TextEditingController();
+  // final emailController = TextEditingController();
   final phoneController = TextEditingController();
-  final otpController = TextEditingController();
+
+  // final otpController = TextEditingController();
   final passwordController = TextEditingController();
-
-  _onVerificationCompleted(PhoneAuthCredential authCredential) async {
-    print("verification completed ${authCredential.smsCode}");
-    final user = FirebaseAuth.instance.currentUser;
-    setState(() {
-      // this.otpController.text = authCredential.smsCode;
-    });
-    // if (authCredential.smsCode != null) {
-    if (true) {
-      try{
-        UserCredential credential =
-        await user.linkWithCredential(authCredential);
-      }on FirebaseAuthException catch(e){
-        if(e.code == 'provider-already-linked'){
-          await auth.signInWithCredential(authCredential);
-        }
-      }
-    }
-  }
-
-  _onVerificationFailed(FirebaseAuthException exception) {
-    if (exception.code == 'invalid-phone-number') {
-      showMessage("The phone number entered is invalid!");
-    }
-  }
-
-  _onCodeSent(String verificationId, int forceResendingToken) {
-    this.verificationId = verificationId;
-    print(forceResendingToken);
-    print("code sent");
-  }
-
-  _onCodeTimeout(String timeout) {
-    return null;
-  }
 
   void showMessage(String errorMessage) {
     showDialog(
@@ -85,35 +52,46 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _submit() async {
-    if (
+    if (phoneController.text.isNotEmpty &&
         passwordController.text.length >= 9) {
-      // final email = '${phoneController.text}@test.com';
-      final email = emailController.text;
+      final email = '${phoneController.text}@test.com';
+      // final email = emailController.text;
       final password = passwordController.text;
-      // final phone = phoneController.text;
-      final phone = "+201018087756";
       print('email $email');
       print('password $password');
       print('submit');
       //using a hack to use phone number as an email
-      if(_isLogin){
-        await auth.signInWithEmailAndPassword(email: email, password: password);
-        print('login done? ${auth.currentUser}');
-      }else{
-        final user = await auth.createUserWithEmailAndPassword(email: email, password: password);
-        print('user $user}');
-        print('sign up done? ${auth.currentUser}');
+      if (auth.currentUser != null) {
+        Navigator.of(context).pushReplacementNamed(ProfileScreen.route);
+      } else {
+        try{
+          if (_isLogin) {
+            print('before login ${auth.currentUser}');
+            await auth.signInWithEmailAndPassword(
+                email: email, password: password);
+            print('login done? ${auth.currentUser}');
+          } else {
+            final user = await auth.createUserWithEmailAndPassword(
+                email: email, password: password);
+            print('user $user}');
+            print('sign up done? ${auth.currentUser}');
+          }
+          if (auth.currentUser != null) {
+            Navigator.of(context).pushReplacementNamed(ProfileScreen.route);
+          }
+        }catch(error){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+        }
+
       }
     }
-
-
-
   }
 
   @override
   void initState() {
     passwordObscure = true;
-    _isLogin = false;
+    _isLogin = true;
+    auth.signOut();
     super.initState();
   }
 
@@ -124,9 +102,9 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _changeMode() {
-    setState(() {
-      _isLogin = !_isLogin;
-    });
+    // setState(() {
+    //   _isLogin = !_isLogin;
+    // });
     print('mode now is $_isLogin Login');
   }
 
@@ -135,29 +113,28 @@ class _AuthFormState extends State<AuthForm> {
     final screenSize = MediaQuery.of(context).size;
     return Column(
       children: [
-        if(!_isLogin)
-          TextField(
-          key: widget.emailKey,
-          controller: emailController,
-          style: TextStyle(color: Colors.white, fontSize: 22),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-              labelText: "Enter Email",
-              // 'auth_phone'.tr().toString(),
-              labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
-        ),
+        //   TextField(
+        //   key: widget.emailKey,
+        //   controller: emailController,
+        //   style: TextStyle(color: Colors.white, fontSize: 22),
+        //   keyboardType: TextInputType.emailAddress,
+        //   decoration: InputDecoration(
+        //       labelText: "Enter Email",
+        //       // 'auth_phone'.tr().toString(),
+        //       labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
+        // ),
         TextField(
           key: widget.phoneKey,
           controller: phoneController,
-          onEditingComplete: () async {
-            await auth.verifyPhoneNumber(
-                // phoneNumber: phoneController.text,
-              phoneNumber: '+201018087756',
-                verificationCompleted: _onVerificationCompleted,
-                verificationFailed: _onVerificationFailed,
-                codeSent: _onCodeSent,
-                codeAutoRetrievalTimeout: _onCodeTimeout);
-          },
+          // onEditingComplete: () async {
+          //   await auth.verifyPhoneNumber(
+          //       // phoneNumber: phoneController.text,
+          //     phoneNumber: '+201018087756',
+          //       verificationCompleted: _onVerificationCompleted,
+          //       verificationFailed: _onVerificationFailed,
+          //       codeSent: _onCodeSent,
+          //       codeAutoRetrievalTimeout: _onCodeTimeout);
+          // },
           style: TextStyle(color: Colors.white, fontSize: 22),
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
@@ -165,17 +142,16 @@ class _AuthFormState extends State<AuthForm> {
               // 'auth_phone'.tr().toString(),
               labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
         ),
-        if(!_isLogin)
-          TextField(
-            // key: widget.phoneKey,
-            controller: otpController,
-            style: TextStyle(color: Colors.white, fontSize: 22),
-            keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-                labelText: "Enter OTP",
-                // 'auth_phone'.tr().toString(),
-                labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
-          ),
+        // TextField(
+        //   // key: widget.phoneKey,
+        //   controller: otpController,
+        //   style: TextStyle(color: Colors.white, fontSize: 22),
+        //   keyboardType: TextInputType.phone,
+        //   decoration: InputDecoration(
+        //       labelText: "Enter OTP",
+        //       // 'auth_phone'.tr().toString(),
+        //       labelStyle: TextStyle(color: Colors.white70, fontSize: 15)),
+        // ),
         Row(
           // alignment: Alignment.centerRight,
           children: [
@@ -218,7 +194,10 @@ class _AuthFormState extends State<AuthForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // ChangeModeButton(intro.keys[4]),
-              ChangeModeButton(isLogin: _isLogin,onPressed: _changeMode,),
+              ChangeModeButton(
+                isLogin: _isLogin,
+                onPressed: _changeMode,
+              ),
               // ForgotPasswordButton(intro.keys[5]),
               ForgotPasswordButton(),
             ],
@@ -350,7 +329,7 @@ class ChangeModeButton extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.contain,
           child: Text(
-            isLogin ?  "Sign up" : "Login",
+            isLogin ? "Sign up" : "Login",
             // 'sign_up'.tr().toString(),
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
